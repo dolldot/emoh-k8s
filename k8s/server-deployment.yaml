@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: server
+  template:
+    metadata:
+      labels:
+        component: server
+    spec:
+      containers:
+        - name: server
+          image: dolldot/emoh-api:develop
+          ports:
+            - containerPort: 5000
+          env:
+            - name: NODE_ENV
+              value: 'development'
+            - name: MONGODB_CONNECTION_STRING
+              value: 'mongodb://mongo-0.mongo:27017/emoh'
+            - name: PORT
+              value: '5000'
+            - name: SECRET
+              value: 'dolldot'

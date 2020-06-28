@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dashboard-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: dashboard
+  template:
+    metadata:
+      labels:
+        component: dashboard
+    spec:
+      containers:
+        - name: dashboard
+          image: dolldot/emoh:develop
+          ports:
+            - containerPort: 3000
