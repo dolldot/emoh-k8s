@@ -1,7 +1,7 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: emoh-ingress-service
+  name: ingress-service
   annotations:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/add-base-url: "true"
@@ -14,11 +14,24 @@ spec:
             backend:
               serviceName: dashboard-cluster-ip-service
               servicePort: 3000
-          - path: /blog/?(.*)
-            backend:
-              serviceName: web-cluster-ip-service
-              servicePort: 3000
           - path: /api/?(.*)
             backend:
               serviceName: server-cluster-ip-service
               servicePort: 5000
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-service-blog
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/add-base-url: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /blog/$1
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /blog/?(.*)
+            backend:
+              serviceName: web-cluster-ip-service
+              servicePort: 3000
